@@ -10,7 +10,7 @@
                             <label class="tracking-wider text-lg mb-1 block font-bold">
                                 Title
                             </label>
-                            <input type="text" name="title" class="w-full bg-gray-800 text-gray-200 border border-gray-600 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter poll title" required>
+                            <input type="text" name="question" class="w-full bg-gray-800 text-gray-200 border border-gray-600 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter poll title" required>
                         </div>
 
                         <div class="mb-4">

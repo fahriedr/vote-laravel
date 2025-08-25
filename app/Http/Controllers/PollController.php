@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\IdGenerator;
+use App\Models\Poll;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
@@ -16,6 +18,14 @@ class PollController extends Controller
             'end_date' => 'nullable|date|after:today',
         ]);
 
-        dd($request->all());
+        $poll = Poll::create([
+            'question' => $request->input('question'),
+            'user_id' => auth()->id(),
+            'status' => 1,
+            'end_date' => $request->input('end_date'),
+            'unique_id' => IdGenerator::generate('POLL', 6)
+        ]);
+
+        return redirect()->back()->with('success', 'Poll created successfully!');
     }
 }
