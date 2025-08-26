@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\IdGenerator;
+use App\Helpers\Helper;
 use App\Models\Poll;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class PollController extends Controller
@@ -23,9 +22,34 @@ class PollController extends Controller
             'user_id' => auth()->id(),
             'status' => 1,
             'end_date' => $request->input('end_date'),
-            'unique_id' => IdGenerator::generate('POLL', 6)
+            'unique_id' => Helper::generateUniqueId('POLL', 6)
         ]);
 
-        return redirect()->back()->with('success', 'Poll created successfully!');
+        // options
+        foreach ($request->input('options') as $optionText) {
+            $poll->options()->create(['option_text' => $optionText]);
+        }
+
+        // return redirect()->back()->with('success', 'Poll created successfully!');
+        return redirect('/vote/'.$poll->unique_id)->with('success', 'Poll created successfully!');
+    }
+
+    public function result(Request $request, $pollid)
+    {
+
+        $poll = Poll::with(['options' => function ($q) {
+            $q->withCount(['votes']);
+        }])
+        ->withCount('votes')
+        ->where('unique_id', $pollid)
+        ->first();
+
+        if (!$poll) {
+            return redirect('/')->with('error', 'Poll not found');
+        }
+
+
+
+        return view('result', ['data' => $poll]);
     }
 }

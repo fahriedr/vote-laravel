@@ -19,11 +19,11 @@ class Poll extends Model
 
     public function options()
     {
-        return $this->hasMany(Option::class);
+        return $this->hasMany(Option::class, 'poll_id');
     }
 
     public function votes()
     {
-        return $this->hasMany(Vote::class);
+        return $this->hasMany(Vote::class, 'poll_id');
     }
 }

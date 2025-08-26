@@ -2,9 +2,11 @@
 
 namespace App\Helpers;
 
-class IdGenerator
+use Carbon\Carbon;
+
+class Helper
 {
-    public static function generate(string $prefix = 'POLL', int $length = 6): string
+    public static function generateUniqueId(string $prefix = 'POLL', int $length = 6): string
     {
         $numbers = mt_rand(10 ** ($length - 1), (10 ** $length) - 1);
 
