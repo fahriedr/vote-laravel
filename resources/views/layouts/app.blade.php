@@ -17,6 +17,7 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div id="dynamic-toast-container"></div>
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -38,6 +39,12 @@
     @if ($errors->any())
     <x-toast type="error">
         {{ $errors->first() }}
+    </x-toast>
+    @endif
+
+    @if (session('error'))
+    <x-toast type="error">
+        {{ session('error') }}
     </x-toast>
     @endif
 

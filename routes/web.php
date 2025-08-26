@@ -1,15 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UtilityController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/login');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [App\Http\Controllers\PollController::class, 'search'])->name('polls.search');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -18,9 +13,16 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('/polls/create', [App\Http\Controllers\PollController::class, 'store'])->name('polls.store');
-    Route::post('/polls/update', [App\Http\Controllers\PollController::class, 'update'])->name('polls.update');
-    Route::get('/polls/{unique_id}/delete', [App\Http\Controllers\PollController::class, 'destroy'])->name('polls.destroy');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/polls/create', [App\Http\Controllers\PollController::class, 'create'])->name('polls.create');
+    Route::post('/polls/store', [App\Http\Controllers\PollController::class, 'store'])->name('polls.store');
+    Route::get('/polls/edit/{pollId}', [App\Http\Controllers\PollController::class, 'edit'])->name('polls.edit');
+    Route::put('/polls/update/{pollId}', [App\Http\Controllers\PollController::class, 'update'])->name('polls.update');
+    Route::delete('/polls/{pollId}/delete', [App\Http\Controllers\PollController::class, 'delete'])->name('polls.delete');
+
+    Route::get('/similarity', [UtilityController::class, 'form'])->name('similarity.form');
+    Route::post('/similarity', [UtilityController::class, 'calculate'])->name('similarity.check');
 });
 
 Route::get('/vote/{pollUniqeId}', [App\Http\Controllers\VoteController::class, 'show'])->name('vote.show');

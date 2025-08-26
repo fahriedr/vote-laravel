@@ -56,6 +56,23 @@
                     </div>
                 </div>
             </div>
+
+            <div class="bg-gray-800 rounded-xl p-6 shadow-2xl">
+                <button class="flex items-center gap-2 text-gray-300 mb-4">
+                    <i class="fas fa-share"></i> Share
+                </button>
+                
+                <div class="mb-4">
+                    <p class="text-white text-lg mb-3">Share the link</p>
+                    <div class="flex">
+                        <input type="text" value="{{url()->current()}}" 
+                            class="flex-1 bg-gray-700 border border-gray-600 rounded-l-lg px-4 py-2 text-gray-300 text-sm" readonly>
+                        <button id="copyBtn" class="bg-gray-700 border border-gray-600 border-l-0 rounded-r-lg px-4 py-2 text-gray-300 hover:bg-gray-600 transition-colors duration-200">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -122,6 +139,19 @@
                     duration: 1500
                 }
             }
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const linkInput = document.querySelector('input[readonly]');
+            linkInput.select();
+            document.execCommand('copy');
+            
+            // Show feedback
+            const originalIcon = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => {
+                this.innerHTML = originalIcon;
+            }, 2000);
         });
     </script>
 </x-guest-layout>

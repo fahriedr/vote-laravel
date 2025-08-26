@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Poll;
 use App\Models\Vote;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VoteController extends Controller
@@ -28,6 +29,8 @@ class VoteController extends Controller
     public function create(Request $request, $pollId)
     {
 
+        $now = Carbon::now();
+
         $request->validate([
             'option_id' => 'required|exists:options,id',
             'poll_id' => 'required|exists:polls,id',
@@ -41,6 +44,13 @@ class VoteController extends Controller
 
         if($poll->status != 1) {
             return redirect()->back()->with('error', 'Poll is not active!');
+        }
+
+        if ($poll->end_date != null) {
+            
+            if($now > $poll->end_date) {
+                return redirect()->back()->with('error', 'Polling already ended');
+            }
         }
 
         // Check if user has already voted
@@ -57,6 +67,7 @@ class VoteController extends Controller
             'poll_id' => $pollId,
             'option_id' => $request->option_id,
             'browser_fingerprint' => $request->fingerprint,
+            'name' => $request->name
         ]);
 
         return redirect('/poll/result/' . $poll->unique_id,)->with('success', 'Your vote has been recorded!');

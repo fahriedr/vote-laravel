@@ -10,5 +10,6 @@ class Vote extends Model
         'poll_id',
         'option_id',
         'browser_fingerprint',
+        'name'
     ];
 }

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Poll extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'unique_id',
@@ -15,6 +17,8 @@ class Poll extends Model
         'user_id',
         'status',
         'end_date',
+        'allow_multiple',
+        'require_voter_name'
     ];
 
     public function options()

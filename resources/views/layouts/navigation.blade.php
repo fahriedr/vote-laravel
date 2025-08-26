@@ -13,7 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('My Polling') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('polls.create')" :active="request()->routeIs('polls.create')">
                         {{ __('Create Poll') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('similarity.form')" :active="request()->routeIs('similarity.form')">
+                        {{ __('Similarity Checker') }}
                     </x-nav-link>
                 </div>
             </div>
