@@ -9,8 +9,9 @@ export default defineConfig({
         }),
     ],
     build: {
-        outDir: 'public/build',
         manifest: true,
-        emptyOutDir: true,
+        outDir: 'public/build', // <--- hasil build masuk ke public/build
+        assetsDir: '',          // <--- biar tidak bikin nested folder aneh
     },
+    base: '', // penting untuk shared hosting
 });

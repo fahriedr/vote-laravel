@@ -1,22 +1,25 @@
 import './bootstrap';
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
-
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
-
 Alpine.start();
 
-FingerprintJS.load().then(fp => {
-    fp.get().then(result => {
-        const visitorId = result.visitorId; // unique ID
-        console.log("Fingerprint:", visitorId);
+// ===============================
+// Simple browser fingerprint
+// ===============================
+let visitorId = localStorage.getItem("visitorId");
 
-        // Kirim ke server via hidden input
-        let input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "fingerprint";
-        input.value = visitorId;
-        document.querySelector("form")?.appendChild(input);
-    });
+if (!visitorId) {
+    // generate unique ID per browser
+    visitorId = crypto.randomUUID();
+    localStorage.setItem("visitorId", visitorId);
+}
+
+// Append hidden input to all forms
+document.querySelectorAll("form").forEach(form => {
+    let input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "fingerprint";
+    input.value = visitorId;
+    form.appendChild(input);
 });
